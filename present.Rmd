@@ -52,7 +52,7 @@ Our state of the art prediction algorithm utilizes strong correlation between ca
 library(ggplot2)
 library(plyr)
 library(gridExtra)
-mtcars$Transmission<-revalue(factor(mtcars$am),c("0"="Automatic", "1"="Manual"))
+mtcars$Transmission<-revalue(factor(mtcars$am),c("0"="Auto", "1"="Manual"))
 mtauto<-mtcars[mtcars$am==0,]
 mtman<-mtcars[mtcars$am==1,]
 fit<-lm(mtcars$mpg ~ mtcars$wt)
