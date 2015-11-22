@@ -1,0 +1,85 @@
+---
+title       : Miles per Gallon Prediction App
+subtitle    : Data Products Course Presentation
+author      : Michael Bausor
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : yesterday      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## The Problem
+
+Are you:
+
+- Buying a new car?
+- Selling a car?
+- Trying to save money on fuel?
+
+You need to know the mileage you can expect to get out of your car. But how? Trying to calculate the mileage of a car yourself, you can encounter all sorts of problems, such as:
+
+- Tricky and error prone measurements
+- Boring maths
+- Mind numbing apathy
+
+Is there another way?
+
+--- .class #id 
+
+## The Solution
+
+YES! 
+
+Our state of the art prediction app can tell you the miles per gallon of your car with just the click of a button.
+
+Simply enter the weight and transmission type of you car, and BOOM! Out comes the miles per gallon. It really is that easy!
+
+```{r fk, eval=FALSE, echo=TRUE}
+weight + transmission = mpg prediction
+mpg prediction + you = profit
+```
+
+--- .class #id 
+
+## Prediction...with SCIENCE
+
+Our state of the art prediction algorithm utilizes strong correlation between car weight and miles per gallon performance, as shown in the following chart.
+
+```{r fit, fig.width=12, fig.height=6, echo=FALSE}
+library(ggplot2)
+library(plyr)
+library(gridExtra)
+mtcars$Transmission<-revalue(factor(mtcars$am),c("0"="Automatic", "1"="Manual"))
+mtauto<-mtcars[mtcars$am==0,]
+mtman<-mtcars[mtcars$am==1,]
+fit<-lm(mtcars$mpg ~ mtcars$wt)
+fitauto <- lm(mtauto$mpg ~ mtauto$wt)
+fitman <- lm(mtman$mpg ~ mtman$wt)
+b0<- fit$coefficients[1]
+b1<- fit$coefficients[2]
+b0a<- fitauto$coefficients[1]
+b1a<- fitauto$coefficients[2]
+b0m<- fitman$coefficients[1]
+b1m<- fitman$coefficients[2]
+ggplot(mtcars, aes(x=wt, y=mpg, colour=Transmission)) + 
+    geom_point() + 
+    geom_line(aes(y=wt*b1+b0, colour="Regression")) +
+    geom_line(aes(y=wt*b1a+b0a, colour="Regression Auto")) +
+    geom_line(aes(y=wt*b1m+b0m, colour="Regression Manual")) +
+    xlab("Weight (lb/1000)") +
+    ylab("Miles per gallon (mpg)")
+```
+
+--- .class #id 
+
+## Do it NOW
+
+You can find out the miles per gallon of your car right now! Just follow these simple steps:
+
+1. Go to https://michaelbausor.shinyapps.io/Project
+2. Enter your car's weight and transmission type
+3. Press submit
+4. Victory!
